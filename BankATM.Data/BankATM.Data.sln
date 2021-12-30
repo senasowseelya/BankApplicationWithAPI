@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankATM.Data", "BankATM.Data\BankATM.Data.csproj", "{E868EA1E-5FFD-49CA-B178-FDA8EF463102}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankATM.API", "BankATM.API\BankATM.API.csproj", "{D7C4AB69-F046-40C4-81E5-EE88D2A14B48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankATM.Services", "BankATM.Services\BankATM.Services.csproj", "{16C686C2-4A44-4EDD-ADCE-765E4126C2A5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E868EA1E-5FFD-49CA-B178-FDA8EF463102}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E868EA1E-5FFD-49CA-B178-FDA8EF463102}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E868EA1E-5FFD-49CA-B178-FDA8EF463102}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E868EA1E-5FFD-49CA-B178-FDA8EF463102}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7C4AB69-F046-40C4-81E5-EE88D2A14B48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7C4AB69-F046-40C4-81E5-EE88D2A14B48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7C4AB69-F046-40C4-81E5-EE88D2A14B48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7C4AB69-F046-40C4-81E5-EE88D2A14B48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16C686C2-4A44-4EDD-ADCE-765E4126C2A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16C686C2-4A44-4EDD-ADCE-765E4126C2A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16C686C2-4A44-4EDD-ADCE-765E4126C2A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16C686C2-4A44-4EDD-ADCE-765E4126C2A5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D0FD612C-1C56-4261-978E-3A4164B68754}
+	EndGlobalSection
+EndGlobal

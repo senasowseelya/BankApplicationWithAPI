@@ -1,0 +1,652 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BankDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="account">
+          <Key>
+            <PropertyRef Name="accountId" />
+          </Key>
+          <Property Name="accountId" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="bankId" Type="varchar" MaxLength="15" />
+          <Property Name="accountNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="balance" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="status" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="dateOfIssue" Type="datetime" Nullable="false" />
+          <Property Name="userId" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="bank">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="branch" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="ifsc" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="balance" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="bankuser">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="20" />
+          <Property Name="password" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="age" Type="int" Nullable="false" />
+          <Property Name="dob" Type="date" Nullable="false" />
+          <Property Name="contactNumber" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="aadharNumber" Type="bigint" Nullable="false" />
+          <Property Name="nationality" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="currency">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="10" />
+          <Property Name="exchangeRate" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="bankid" Type="varchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="employee">
+          <Key>
+            <PropertyRef Name="employeeId" />
+          </Key>
+          <Property Name="employeeId" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="bankId" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="userId" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="serviceCharge">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="value" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="bankId" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="transactions">
+          <Key>
+            <PropertyRef Name="transid" />
+          </Key>
+          <Property Name="transid" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="senderaccountId" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="receiveraccountId" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="transactionOn" Type="datetime" Nullable="false" />
+          <Property Name="transactionAmount" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="type" Type="varchar" MaxLength="10" />
+          <Property Name="currency" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="transactionType">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <Association Name="FK__account__bankId__29572725">
+          <End Role="bank" Type="Self.bank" Multiplicity="0..1" />
+          <End Role="account" Type="Self.account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bank">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="account">
+              <PropertyRef Name="bankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__account__userId__2A4B4B5E">
+          <End Role="bankuser" Type="Self.bankuser" Multiplicity="0..1" />
+          <End Role="account" Type="Self.account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bankuser">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="account">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Currency__bankid__2E1BDC42">
+          <End Role="bank" Type="Self.bank" Multiplicity="1" />
+          <End Role="currency" Type="Self.currency" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bank">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="currency">
+              <PropertyRef Name="bankid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__employee__bankId__398D8EEE">
+          <End Role="bank" Type="Self.bank" Multiplicity="1" />
+          <End Role="employee" Type="Self.employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bank">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="employee">
+              <PropertyRef Name="bankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__employee__userId__3A81B327">
+          <End Role="bankuser" Type="Self.bankuser" Multiplicity="1" />
+          <End Role="employee" Type="Self.employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bankuser">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="employee">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__serviceCh__bankI__3E52440B">
+          <End Role="bank" Type="Self.bank" Multiplicity="0..1" />
+          <End Role="serviceCharge" Type="Self.serviceCharge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bank">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="serviceCharge">
+              <PropertyRef Name="bankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__transacti__curre__59063A47">
+          <End Role="currency" Type="Self.currency" Multiplicity="0..1" />
+          <End Role="transactions" Type="Self.transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="currency">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transactions">
+              <PropertyRef Name="currency" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__transacti__recei__571DF1D5">
+          <End Role="account" Type="Self.account" Multiplicity="1" />
+          <End Role="transactions" Type="Self.transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="account">
+              <PropertyRef Name="accountId" />
+            </Principal>
+            <Dependent Role="transactions">
+              <PropertyRef Name="receiveraccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__transacti__sende__5629CD9C">
+          <End Role="account" Type="Self.account" Multiplicity="1" />
+          <End Role="transactions" Type="Self.transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="account">
+              <PropertyRef Name="accountId" />
+            </Principal>
+            <Dependent Role="transactions">
+              <PropertyRef Name="senderaccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__transactio__type__5812160E">
+          <End Role="transactionType" Type="Self.transactionType" Multiplicity="0..1" />
+          <End Role="transactions" Type="Self.transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="transactionType">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transactions">
+              <PropertyRef Name="type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BankDataModelStoreContainer">
+          <EntitySet Name="account" EntityType="Self.account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bank" EntityType="Self.bank" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bankuser" EntityType="Self.bankuser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="currency" EntityType="Self.currency" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="employee" EntityType="Self.employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="serviceCharge" EntityType="Self.serviceCharge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="transactions" EntityType="Self.transactions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="transactionType" EntityType="Self.transactionType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__account__bankId__29572725" Association="Self.FK__account__bankId__29572725">
+            <End Role="bank" EntitySet="bank" />
+            <End Role="account" EntitySet="account" />
+          </AssociationSet>
+          <AssociationSet Name="FK__account__userId__2A4B4B5E" Association="Self.FK__account__userId__2A4B4B5E">
+            <End Role="bankuser" EntitySet="bankuser" />
+            <End Role="account" EntitySet="account" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Currency__bankid__2E1BDC42" Association="Self.FK__Currency__bankid__2E1BDC42">
+            <End Role="bank" EntitySet="bank" />
+            <End Role="currency" EntitySet="currency" />
+          </AssociationSet>
+          <AssociationSet Name="FK__employee__bankId__398D8EEE" Association="Self.FK__employee__bankId__398D8EEE">
+            <End Role="bank" EntitySet="bank" />
+            <End Role="employee" EntitySet="employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__employee__userId__3A81B327" Association="Self.FK__employee__userId__3A81B327">
+            <End Role="bankuser" EntitySet="bankuser" />
+            <End Role="employee" EntitySet="employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__serviceCh__bankI__3E52440B" Association="Self.FK__serviceCh__bankI__3E52440B">
+            <End Role="bank" EntitySet="bank" />
+            <End Role="serviceCharge" EntitySet="serviceCharge" />
+          </AssociationSet>
+          <AssociationSet Name="FK__transacti__curre__59063A47" Association="Self.FK__transacti__curre__59063A47">
+            <End Role="currency" EntitySet="currency" />
+            <End Role="transactions" EntitySet="transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__transacti__recei__571DF1D5" Association="Self.FK__transacti__recei__571DF1D5">
+            <End Role="account" EntitySet="account" />
+            <End Role="transactions" EntitySet="transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__transacti__sende__5629CD9C" Association="Self.FK__transacti__sende__5629CD9C">
+            <End Role="account" EntitySet="account" />
+            <End Role="transactions" EntitySet="transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__transactio__type__5812160E" Association="Self.FK__transactio__type__5812160E">
+            <End Role="transactionType" EntitySet="transactionType" />
+            <End Role="transactions" EntitySet="transactions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BankDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="account">
+          <Key>
+            <PropertyRef Name="accountId" />
+          </Key>
+          <Property Name="accountId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bankId" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="accountNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="balance" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dateOfIssue" Type="DateTime" Nullable="false" />
+          <Property Name="userId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="bank" Relationship="Self.FK__account__bankId__29572725" FromRole="account" ToRole="bank" />
+          <NavigationProperty Name="bankuser" Relationship="Self.FK__account__userId__2A4B4B5E" FromRole="account" ToRole="bankuser" />
+          <NavigationProperty Name="transactions" Relationship="Self.FK__transacti__recei__571DF1D5" FromRole="account" ToRole="transactions" />
+          <NavigationProperty Name="transactions1" Relationship="Self.FK__transacti__sende__5629CD9C" FromRole="account" ToRole="transactions" />
+        </EntityType>
+        <EntityType Name="bank">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="branch" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ifsc" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="balance" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="accounts" Relationship="Self.FK__account__bankId__29572725" FromRole="bank" ToRole="account" />
+          <NavigationProperty Name="currencies" Relationship="Self.FK__Currency__bankid__2E1BDC42" FromRole="bank" ToRole="currency" />
+          <NavigationProperty Name="employees" Relationship="Self.FK__employee__bankId__398D8EEE" FromRole="bank" ToRole="employee" />
+          <NavigationProperty Name="serviceCharges" Relationship="Self.FK__serviceCh__bankI__3E52440B" FromRole="bank" ToRole="serviceCharge" />
+        </EntityType>
+        <EntityType Name="bankuser">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="age" Type="Int32" Nullable="false" />
+          <Property Name="dob" Type="DateTime" Nullable="false" />
+          <Property Name="contactNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="aadharNumber" Type="Int64" Nullable="false" />
+          <Property Name="nationality" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="accounts" Relationship="Self.FK__account__userId__2A4B4B5E" FromRole="bankuser" ToRole="account" />
+          <NavigationProperty Name="employees" Relationship="Self.FK__employee__userId__3A81B327" FromRole="bankuser" ToRole="employee" />
+        </EntityType>
+        <EntityType Name="currency">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="exchangeRate" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="bankid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="bank" Relationship="Self.FK__Currency__bankid__2E1BDC42" FromRole="currency" ToRole="bank" />
+          <NavigationProperty Name="transactions" Relationship="Self.FK__transacti__curre__59063A47" FromRole="currency" ToRole="transactions" />
+        </EntityType>
+        <EntityType Name="employee">
+          <Key>
+            <PropertyRef Name="employeeId" />
+          </Key>
+          <Property Name="employeeId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bankId" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="userId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="bank" Relationship="Self.FK__employee__bankId__398D8EEE" FromRole="employee" ToRole="bank" />
+          <NavigationProperty Name="bankuser" Relationship="Self.FK__employee__userId__3A81B327" FromRole="employee" ToRole="bankuser" />
+        </EntityType>
+        <EntityType Name="serviceCharge">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="value" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="bankId" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="bank" Relationship="Self.FK__serviceCh__bankI__3E52440B" FromRole="serviceCharge" ToRole="bank" />
+        </EntityType>
+        <EntityType Name="transaction">
+          <Key>
+            <PropertyRef Name="transid" />
+          </Key>
+          <Property Name="transid" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="senderaccountId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="receiveraccountId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="transactionOn" Type="DateTime" Nullable="false" />
+          <Property Name="transactionAmount" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="currency" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="account" Relationship="Self.FK__transacti__recei__571DF1D5" FromRole="transactions" ToRole="account" />
+          <NavigationProperty Name="account1" Relationship="Self.FK__transacti__sende__5629CD9C" FromRole="transactions" ToRole="account" />
+          <NavigationProperty Name="currency1" Relationship="Self.FK__transacti__curre__59063A47" FromRole="transactions" ToRole="currency" />
+          <NavigationProperty Name="transactionType" Relationship="Self.FK__transactio__type__5812160E" FromRole="transactions" ToRole="transactionType" />
+        </EntityType>
+        <EntityType Name="transactionType">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="transactions" Relationship="Self.FK__transactio__type__5812160E" FromRole="transactionType" ToRole="transactions" />
+        </EntityType>
+        <Association Name="FK__account__bankId__29572725">
+          <End Role="bank" Type="Self.bank" Multiplicity="0..1" />
+          <End Role="account" Type="Self.account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bank">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="account">
+              <PropertyRef Name="bankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__account__userId__2A4B4B5E">
+          <End Role="bankuser" Type="Self.bankuser" Multiplicity="0..1" />
+          <End Role="account" Type="Self.account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bankuser">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="account">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__transacti__recei__571DF1D5">
+          <End Role="account" Type="Self.account" Multiplicity="1" />
+          <End Role="transactions" Type="Self.transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="account">
+              <PropertyRef Name="accountId" />
+            </Principal>
+            <Dependent Role="transactions">
+              <PropertyRef Name="receiveraccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__transacti__sende__5629CD9C">
+          <End Role="account" Type="Self.account" Multiplicity="1" />
+          <End Role="transactions" Type="Self.transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="account">
+              <PropertyRef Name="accountId" />
+            </Principal>
+            <Dependent Role="transactions">
+              <PropertyRef Name="senderaccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Currency__bankid__2E1BDC42">
+          <End Role="bank" Type="Self.bank" Multiplicity="1" />
+          <End Role="currency" Type="Self.currency" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bank">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="currency">
+              <PropertyRef Name="bankid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__employee__bankId__398D8EEE">
+          <End Role="bank" Type="Self.bank" Multiplicity="1" />
+          <End Role="employee" Type="Self.employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bank">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="employee">
+              <PropertyRef Name="bankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__serviceCh__bankI__3E52440B">
+          <End Role="bank" Type="Self.bank" Multiplicity="0..1" />
+          <End Role="serviceCharge" Type="Self.serviceCharge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bank">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="serviceCharge">
+              <PropertyRef Name="bankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__employee__userId__3A81B327">
+          <End Role="bankuser" Type="Self.bankuser" Multiplicity="1" />
+          <End Role="employee" Type="Self.employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bankuser">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="employee">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__transacti__curre__59063A47">
+          <End Role="currency" Type="Self.currency" Multiplicity="0..1" />
+          <End Role="transactions" Type="Self.transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="currency">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transactions">
+              <PropertyRef Name="currency" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__transactio__type__5812160E">
+          <End Role="transactionType" Type="Self.transactionType" Multiplicity="0..1" />
+          <End Role="transactions" Type="Self.transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="transactionType">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transactions">
+              <PropertyRef Name="type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BankDataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="accounts" EntityType="Self.account" />
+          <EntitySet Name="banks" EntityType="Self.bank" />
+          <EntitySet Name="bankusers" EntityType="Self.bankuser" />
+          <EntitySet Name="currencies" EntityType="Self.currency" />
+          <EntitySet Name="employees" EntityType="Self.employee" />
+          <EntitySet Name="serviceCharges" EntityType="Self.serviceCharge" />
+          <EntitySet Name="transactions" EntityType="Self.transaction" />
+          <EntitySet Name="transactionTypes" EntityType="Self.transactionType" />
+          <AssociationSet Name="FK__account__bankId__29572725" Association="Self.FK__account__bankId__29572725">
+            <End Role="bank" EntitySet="banks" />
+            <End Role="account" EntitySet="accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__account__userId__2A4B4B5E" Association="Self.FK__account__userId__2A4B4B5E">
+            <End Role="bankuser" EntitySet="bankusers" />
+            <End Role="account" EntitySet="accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__transacti__recei__571DF1D5" Association="Self.FK__transacti__recei__571DF1D5">
+            <End Role="account" EntitySet="accounts" />
+            <End Role="transactions" EntitySet="transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__transacti__sende__5629CD9C" Association="Self.FK__transacti__sende__5629CD9C">
+            <End Role="account" EntitySet="accounts" />
+            <End Role="transactions" EntitySet="transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Currency__bankid__2E1BDC42" Association="Self.FK__Currency__bankid__2E1BDC42">
+            <End Role="bank" EntitySet="banks" />
+            <End Role="currency" EntitySet="currencies" />
+          </AssociationSet>
+          <AssociationSet Name="FK__employee__bankId__398D8EEE" Association="Self.FK__employee__bankId__398D8EEE">
+            <End Role="bank" EntitySet="banks" />
+            <End Role="employee" EntitySet="employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__serviceCh__bankI__3E52440B" Association="Self.FK__serviceCh__bankI__3E52440B">
+            <End Role="bank" EntitySet="banks" />
+            <End Role="serviceCharge" EntitySet="serviceCharges" />
+          </AssociationSet>
+          <AssociationSet Name="FK__employee__userId__3A81B327" Association="Self.FK__employee__userId__3A81B327">
+            <End Role="bankuser" EntitySet="bankusers" />
+            <End Role="employee" EntitySet="employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__transacti__curre__59063A47" Association="Self.FK__transacti__curre__59063A47">
+            <End Role="currency" EntitySet="currencies" />
+            <End Role="transactions" EntitySet="transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__transactio__type__5812160E" Association="Self.FK__transactio__type__5812160E">
+            <End Role="transactionType" EntitySet="transactionTypes" />
+            <End Role="transactions" EntitySet="transactions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BankDataModelStoreContainer" CdmEntityContainer="BankDataEntities">
+          <EntitySetMapping Name="accounts">
+            <EntityTypeMapping TypeName="BankDataModel.account">
+              <MappingFragment StoreEntitySet="account">
+                <ScalarProperty Name="accountId" ColumnName="accountId" />
+                <ScalarProperty Name="bankId" ColumnName="bankId" />
+                <ScalarProperty Name="accountNumber" ColumnName="accountNumber" />
+                <ScalarProperty Name="balance" ColumnName="balance" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="dateOfIssue" ColumnName="dateOfIssue" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="banks">
+            <EntityTypeMapping TypeName="BankDataModel.bank">
+              <MappingFragment StoreEntitySet="bank">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="branch" ColumnName="branch" />
+                <ScalarProperty Name="ifsc" ColumnName="ifsc" />
+                <ScalarProperty Name="balance" ColumnName="balance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bankusers">
+            <EntityTypeMapping TypeName="BankDataModel.bankuser">
+              <MappingFragment StoreEntitySet="bankuser">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="dob" ColumnName="dob" />
+                <ScalarProperty Name="contactNumber" ColumnName="contactNumber" />
+                <ScalarProperty Name="aadharNumber" ColumnName="aadharNumber" />
+                <ScalarProperty Name="nationality" ColumnName="nationality" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="currencies">
+            <EntityTypeMapping TypeName="BankDataModel.currency">
+              <MappingFragment StoreEntitySet="currency">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="exchangeRate" ColumnName="exchangeRate" />
+                <ScalarProperty Name="bankid" ColumnName="bankid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="employees">
+            <EntityTypeMapping TypeName="BankDataModel.employee">
+              <MappingFragment StoreEntitySet="employee">
+                <ScalarProperty Name="employeeId" ColumnName="employeeId" />
+                <ScalarProperty Name="bankId" ColumnName="bankId" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="serviceCharges">
+            <EntityTypeMapping TypeName="BankDataModel.serviceCharge">
+              <MappingFragment StoreEntitySet="serviceCharge">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="bankId" ColumnName="bankId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="transactions">
+            <EntityTypeMapping TypeName="BankDataModel.transaction">
+              <MappingFragment StoreEntitySet="transactions">
+                <ScalarProperty Name="transid" ColumnName="transid" />
+                <ScalarProperty Name="senderaccountId" ColumnName="senderaccountId" />
+                <ScalarProperty Name="receiveraccountId" ColumnName="receiveraccountId" />
+                <ScalarProperty Name="transactionOn" ColumnName="transactionOn" />
+                <ScalarProperty Name="transactionAmount" ColumnName="transactionAmount" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="currency" ColumnName="currency" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="transactionTypes">
+            <EntityTypeMapping TypeName="BankDataModel.transactionType">
+              <MappingFragment StoreEntitySet="transactionType">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
